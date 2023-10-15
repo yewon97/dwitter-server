@@ -53,13 +53,12 @@ router
 router
   .route('/:id')
   .get((req, res) => {
-    if (!!req.params.id) {
-      const found = tweets.find((t) => {
-        if (t.id == req.params.id) return t;
-      });
-      return res.send(JSON.stringify(found));
+    const id = req.params.id;
+    const tweet = tweets.find((t) => t.id == id);
+    if (tweet) {
+      res.status(200).json(tweet);
     } else {
-      res.sendStatus(404);
+      res.status(404).json({ message: `Tweet id(${id}) not found` });
     }
   })
   .put((req, res) => {

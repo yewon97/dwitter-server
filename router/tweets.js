@@ -41,13 +41,10 @@ const tweets = [
 router
   .route('/')
   .get((req, res) => {
-    if (!!req.query.username) {
-      const found = tweets.filter((t) => {
-        if (t.name === req.query.username) return t;
-      });
-      return res.send(JSON.stringify(found));
-    }
-    return res.send(JSON.stringify(tweets));
+    const username = req.query.username;
+    const data = username ? tweets.filter((t) => t.name === username) : tweets;
+
+    res.status(200).json(data);
   })
   .post((req, res) => {
     res.sendStatus(201).send('create');

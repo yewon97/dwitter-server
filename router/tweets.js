@@ -3,7 +3,7 @@ import 'express-async-errors';
 
 const router = express.Router();
 
-const tweets = [
+let tweets = [
   {
     id: 1,
     text: '안녕하세요 오늘 트위터 시작했어요',
@@ -47,7 +47,16 @@ router
     res.status(200).json(data);
   })
   .post((req, res) => {
-    res.sendStatus(201).send('create');
+    const { username, name, text } = req.body;
+    const tweet = {
+      id: Date.now().toString(),
+      text,
+      username,
+      name,
+      createdAt: new Date(),
+    };
+    tweets = [tweet, ...tweets];
+    res.sendStatus(201).json(tweet);
   });
 
 router
@@ -67,3 +76,5 @@ router
   .delete((req, res) => {
     res.sendStatus(204).send('delete!');
   });
+
+export default router;

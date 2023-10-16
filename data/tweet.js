@@ -48,7 +48,7 @@ export function getAllByUsername(username) {
   return tweets.filter((t) => t.username === username);
 }
 
-export function getById() {
+export function getById(id) {
   return tweets.find((t) => t.id === id);
 }
 

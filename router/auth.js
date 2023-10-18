@@ -1,17 +1,13 @@
 import express from 'express';
 import { body } from 'express-validator';
+import jsonwebtoken from 'jsonwebtoken';
 import 'express-async-errors';
-import * as tweetController from '../controller/tweet.js';
+import * as authController from '../controller/auth.js';
 import { validate } from '../middleware/validator.js';
-
-// validation
-// sanitization
-// Contract Testing: Client-Server
-// Proto-base 검사
 
 const router = express.Router();
 
-const validateTweet = [
+const validateAuth = [
   body('text')
     .trim()
     .isLength({ min: 3 })
@@ -20,15 +16,14 @@ const validateTweet = [
   validate,
 ];
 
-router
-  .route('/') //
-  .get(tweetController.getTweets)
-  .post(validateTweet, tweetController.createTweet);
-
-router
+/* router
   .route('/:id') //
   .get(tweetController.getTweet)
   .put(validateTweet, tweetController.updateTweet)
-  .delete(tweetController.deleteTweet);
+  .delete(tweetController.deleteTweet); */
+
+router.post('/signup', (req, res, next) => {
+  const { id, password, username, name, email, url } = req.body;
+});
 
 export default router;

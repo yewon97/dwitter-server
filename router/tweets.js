@@ -3,6 +3,7 @@ import { body } from 'express-validator';
 import 'express-async-errors';
 import * as tweetController from '../controller/tweet.js';
 import { validate } from '../middleware/validator.js';
+import { isAuth } from '../middleware/auth.js';
 
 // validation
 // sanitization
@@ -20,15 +21,16 @@ const validateTweet = [
   validate,
 ];
 
+// 로그인한 사람만 할 수 있다는 isAuth를 추가한다.
 router
   .route('/') //
-  .get(tweetController.getTweets)
-  .post(validateTweet, tweetController.createTweet);
+  .get(isAuth, tweetController.getTweets)
+  .post(isAuth, validateTweet, tweetController.createTweet);
 
 router
   .route('/:id') //
-  .get(tweetController.getTweet)
-  .put(validateTweet, tweetController.updateTweet)
-  .delete(tweetController.deleteTweet);
+  .get(isAuth, tweetController.getTweet)
+  .put(isAuth, validateTweet, tweetController.updateTweet)
+  .delete(isAuth, tweetController.deleteTweet);
 
 export default router;

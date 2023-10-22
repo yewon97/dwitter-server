@@ -10,6 +10,13 @@ let users = [
     email: 'josh@google.com',
     url: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&w=3000',
   },
+  {
+    id: '2',
+    username: 'yewon',
+    password: '$2b$12$iqLUWYvop25tb.rxyQT6muHFlA21Esbd.409A/2MIP8S/wLOHotzK',
+    name: 'JeonYewon',
+    email: 'yewon@google.com',
+  },
 ];
 
 export async function findByUsername(username) {

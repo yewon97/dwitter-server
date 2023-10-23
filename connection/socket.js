@@ -11,7 +11,8 @@ class Socket {
     });
 
     this.io.use((socket, next) => {
-      const token = socket.handshake.auth.token; // ! 보안때문에 무조건 handshake.auth 사용해야함
+      // ! 보안때문에 무조건 handshake.auth 사용해야함
+      const token = socket.handshake.auth.token;
       if (!token) {
         return next(new Error('Authentication Error'));
       }

@@ -1,27 +1,28 @@
-import { v4 as uuid } from 'uuid';
-import { getUsers } from '../database/database.js';
-import MongoDb from 'mongodb';
+import Mongoose from 'mongoose';
+import { useVirtualId } from '../database/database.js';
 
-const ObjectId = MongoDb.ObjectId;
+const userSchema = new Mongoose.Schema({
+  username: { type: String, required: true },
+  name: { type: String, required: true },
+  email: { type: String, required: true },
+  password: { type: String, required: true },
+  url: String,
+});
+
+// _id -> id
+useVirtualId(userSchema);
+const User = Mongoose.model('User', userSchema);
 
 export async function findByUsername(username) {
-  return getUsers()
-    .findOne({ username }) //
-    .then(mapOptionalUser);
-}
-
-export async function createUser(user) {
-  return getUsers()
-    .insertOne(user)
-    .then((data) => data.insertedId.toString());
+  return User.findOne({ username });
+  // mongoose는 커서단위로 리턴해줄 필요가 없음
 }
 
 export async function findById(id) {
-  return getUsers()
-    .findOne({ _id: new ObjectId(id) })
-    .then(mapOptionalUser);
+  return User.findById(id);
+  // _id string변환 안해도되고, 커서 단위 사용 안해도되고
 }
 
-function mapOptionalUser(user) {
-  return user ? { ...user, id: user._id.toString() } : user;
+export async function createUser(user) {
+  return new User(user).save().then((data) => data.id);
 }
